@@ -16,9 +16,9 @@ st.set_page_config(
 # --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI ---
 st.markdown("""
 <style>
-    /* --- THIS IS THE FIX FOR DARK/LIGHT MODE --- */
+    /* --- THIS IS THE DEFINITIVE FIX FOR DARK/LIGHT MODE & MOBILE VISIBILITY --- */
 
-    /* Default (Light Mode) Styles */
+    /* 1. Define Theme-Aware Variables */
     :root {
         --primary-color: #1f77b4;
         --background-color: #FFFFFF;
@@ -28,137 +28,43 @@ st.markdown("""
         --border-color: #e9ecef;
     }
 
-    /* Dark Mode Overrides */
     [data-theme="dark"] {
         --primary-color: #58a6ff;
         --background-color: #0E1117;
         --secondary-background-color: #262730;
         --text-color: #FAFAFA;
         --secondary-text-color: #d1d1d1;
-        --border-color: #444;
+        --border-color: #303339;
     }
 
-    /* General Body Style */
+    /* 2. Apply Variables to General Elements */
     .stApp {
         background-color: var(--background-color);
+    }
+
+    .main-header, .score-highlight {
+        color: var(--primary-color);
+    }
+
+    .question-title, p {
         color: var(--text-color);
     }
 
-    /* Fade-in Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    .question-number, .nav-buttons > div > div > p {
+        color: var(--secondary-text-color);
     }
 
-    .main-header {
-        font-size: 2.2rem !important;
-        text-align: center;
-        margin-bottom: 1rem;
-        color: var(--primary-color);
-        font-weight: 700;
-    }
-
-    /* Question Container - No visible box */
-    .question-container {
-        margin: 2rem auto;
-        max-width: 800px;
-        animation: fadeIn 0.5s ease-in-out;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Results and Welcome containers */
     .results-container, .welcome-container {
-        padding: 2rem;
-        margin: 2rem auto;
-        border-radius: 15px;
         background-color: var(--secondary-background-color);
         border: 1px solid var(--border-color);
-        max-width: 800px;
-        animation: fadeIn 0.5s ease-in-out;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
 
-    .question-title {
-        font-weight: bold;
-        margin-bottom: 2.5rem;
-        color: var(--text-color);
-        font-size: 1.5rem;
-        text-align: left;
-        line-height: 1.4;
-    }
-
-    .question-number {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: var(--secondary-text-color);
-        text-align: left;
-        margin-bottom: 1rem;
-    }
-
-    /* Button Styling */
-    .stButton > button {
-        width: 100%;
-        padding: 1rem;
-        border-radius: 10px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-        margin-bottom: 0.5rem;
-    }
-
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .stButton button[kind="primary"] {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        color: white;
-    }
-    
-    .stButton button[kind="secondary"] {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
-        background-color: transparent;
-    }
-
-    /* Results Styling */
-    .score-highlight {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary-color);
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    .keyword-banner {
-        background-color: rgba(31, 119, 180, 0.1);
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        font-style: italic;
-        border: 1px solid rgba(31, 119, 180, 0.2);
-    }
-
-    /* Navigation buttons */
     .nav-buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 3rem;
-        padding-top: 1.5rem;
         border-top: 1px solid var(--border-color);
     }
 
-    /* Interactive Radio Button Cards */
+    /* 3. Robust Styling for Radio Button Cards */
     .stRadio > div {
-        display: flex;
-        flex-direction: column;
         gap: 0.75rem;
     }
 
@@ -168,17 +74,10 @@ st.markdown("""
         padding: 0.8rem;
         border-radius: 8px;
         border: 2px solid var(--border-color);
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
         background-color: var(--background-color);
         box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-    }
-
-    .stRadio label > div {
-        flex-grow: 1;
-        margin-left: 0.5rem;
-        color: var(--text-color) !important;
-        word-break: break-word;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
     }
 
     .stRadio label:hover {
@@ -186,25 +85,46 @@ st.markdown("""
         background-color: var(--secondary-background-color);
     }
 
+    /* The actual radio circle input */
+    .stRadio input[type="radio"] {
+        flex-shrink: 0; /* Prevent the radio button from shrinking */
+    }
+
+    /* The div containing the text next to the radio button */
+    .stRadio label > div {
+        flex-grow: 1; /* Allow the text to take up all available space */
+        margin-left: 0.75rem; /* Space between dot and text */
+        color: var(--text-color) !important; /* Force text color for all modes */
+        min-width: 0; /* CRITICAL: Allows the text to wrap in a flex container */
+    }
+    /* --- END OF FIX --- */
+
+
+    /* General Layout Styles (Unchanged) */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .main-header { font-size: 2.2rem !important; text-align: center; margin-bottom: 1rem; font-weight: 700; }
+    .question-container { margin: 2rem auto; max-width: 800px; animation: fadeIn 0.5s ease-in-out; display: flex; flex-direction: column; }
+    .results-container, .welcome-container { padding: 2rem; margin: 2rem auto; border-radius: 15px; max-width: 800px; animation: fadeIn 0.5s ease-in-out; display: flex; flex-direction: column; justify-content: center; }
+    .question-title { font-weight: bold; margin-bottom: 2.5rem; font-size: 1.5rem; text-align: left; line-height: 1.4; }
+    .question-number { font-size: 1.3rem; font-weight: 600; text-align: left; margin-bottom: 1rem; }
+    .stButton > button { width: 100%; padding: 1rem; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; border: 2px solid transparent; margin-bottom: 0.5rem; }
+    .stButton > button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .stButton button[kind="primary"] { background-color: var(--primary-color); border-color: var(--primary-color); color: white; }
+    .stButton button[kind="secondary"] { border-color: var(--primary-color); color: var(--primary-color); background-color: transparent; }
+    .score-highlight { font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 1rem; }
+    .keyword-banner { background-color: rgba(31, 119, 180, 0.1); padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-style: italic; border: 1px solid rgba(31, 119, 180, 0.2); }
+    .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 1.5rem; }
+
     /* Responsive Design for Mobile */
     @media (max-width: 768px) {
-        .main-header {
-            font-size: 1.8rem !important;
-        }
-        .question-container, .results-container, .welcome-container {
-            margin: 1rem auto;
-            padding: 1.5rem;
-        }
-        .question-title {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .question-number {
-            font-size: 1.1rem;
-        }
-        .nav-buttons {
-            margin-top: 2rem;
-        }
+        .main-header { font-size: 1.8rem !important; }
+        .question-container, .results-container, .welcome-container { margin: 1rem auto; padding: 1.5rem; }
+        .question-title { font-size: 1.2rem; margin-bottom: 2rem; }
+        .question-number { font-size: 1.1rem; }
+        .nav-buttons { margin-top: 2rem; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -408,8 +328,10 @@ style_descriptions = {
 
 # --- HELPER FUNCTIONS ---
 
+@st.cache_data
 def clean_question_choices(question_list):
     """Removes the bracketed text from question choices in-place."""
+    # This function now runs only once thanks to caching
     for question in question_list:
         cleaned_choices = []
         for choice in question['choices']:
@@ -446,8 +368,8 @@ def create_results_donut_chart(scores):
         pull=[0.05 if scores[s] == max(scores.values()) else 0 for s in scores.keys()]
     )])
     fig.update_layout(
-        title={'text': 'Your Personality Style Profile', 'y':0.95, 'x':0.5, 'xanchor': 'center', 'yanchor': 'top', 'font': {'size': 24, 'color': '#1f77b4'}},
-        font=dict(size=14), 
+        title={'text': 'Your Personality Style Profile', 'y':0.95, 'x':0.5, 'xanchor': 'center', 'yanchor': 'top', 'font': {'size': 24, 'color': 'var(--primary-color)'}},
+        font=dict(size=14, color='var(--text-color)'), 
         paper_bgcolor='rgba(0,0,0,0)', 
         showlegend=False,
         height=450, 
