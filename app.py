@@ -21,9 +21,7 @@ st.set_page_config(
 # --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI ---
 st.markdown("""
 <style>
-    /* --- THIS IS THE DEFINITIVE FIX FOR DARK/LIGHT MODE & MOBILE VISIBILITY --- */
-
-    /* 1. Define Theme-Aware Variables */
+    /* --- Theme-Aware Variables --- */
     :root {
         --primary-color: #1f77b4;
         --background-color: #FFFFFF;
@@ -42,70 +40,47 @@ st.markdown("""
         --border-color: #303339;
     }
 
-    /* 2. Apply Variables to General Elements */
+    /* --- General Styles --- */
     .stApp {
         background-color: var(--background-color);
     }
-
     .main-header, .score-highlight {
         color: var(--primary-color);
     }
-
     .question-title, p {
         color: var(--text-color);
     }
-
     .question-number, .nav-buttons > div > div > p {
         color: var(--secondary-text-color);
     }
-
     .results-container, .welcome-container {
         background-color: var(--secondary-background-color);
         border: 1px solid var(--border-color);
     }
-
     .nav-buttons {
         border-top: 1px solid var(--border-color);
     }
-
-    /* 3. Robust Styling for Radio Button Cards */
-    .stRadio > div {
-        gap: 0.75rem;
-    }
-
-    .stRadio label {
-        display: flex;
-        align-items: center;
-        padding: 0.8rem;
-        border-radius: 8px;
-        border: 2px solid var(--border-color);
-        background-color: var(--background-color);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-    }
-
-    .stRadio label:hover {
-        border-color: var(--primary-color);
-        background-color: var(--secondary-background-color);
-    }
-
-    /* The actual radio circle input */
-    .stRadio input[type="radio"] {
-        flex-shrink: 0; /* Prevent the radio button from shrinking */
-    }
-
-    /* The div containing the text next to the radio button */
     .stRadio label > div {
-        flex-grow: 1; /* Allow the text to take up all available space */
-        margin-left: 0.75rem; /* Space between dot and text */
-        color: var(--text-color) !important; /* Force text color for all modes */
-        min-width: 0; /* CRITICAL: Allows the text to wrap in a flex container */
+        color: var(--text-color) !important;
+        min-width: 0;
     }
-    /* --- END OF FIX --- */
+    
+    /* --- THIS IS THE FINAL FIX FOR ALL BRANDING --- */
+    /* Hide the "Deploy" button which contains the GitHub link */
+    div[data-testid="stDeployButton"] {
+        display: none;
+    }
+    /* Hide the Streamlit "Made with" footer in the bottom right corner */
+    #MainMenu {
+        display: none;
+    }
+    footer {
+        display: none;
+    }
+    /* --- END OF FINAL FIX --- */
 
 
-    /* General Layout Styles (Unchanged) */
+    /* --- All other styles remain the same --- */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -122,8 +97,12 @@ st.markdown("""
     .score-highlight { font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 1rem; }
     .keyword-banner { background-color: rgba(31, 119, 180, 0.1); padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-style: italic; border: 1px solid rgba(31, 119, 180, 0.2); }
     .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 1.5rem; }
+    .stRadio > div { gap: 0.75rem; }
+    .stRadio label { display: flex; align-items: center; padding: 0.8rem; border-radius: 8px; border: 2px solid var(--border-color); transition: all 0.2s ease-in-out; cursor: pointer; background-color: var(--background-color); box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+    .stRadio label:hover { border-color: var(--primary-color); background-color: var(--secondary-background-color); }
+    .stRadio input[type="radio"] { flex-shrink: 0; }
+    .stRadio label > div { flex-grow: 1; margin-left: 0.75rem; }
 
-    /* Responsive Design for Mobile */
     @media (max-width: 768px) {
         .main-header { font-size: 1.8rem !important; }
         .question-container, .results-container, .welcome-container { margin: 1rem auto; padding: 1.5rem; }
