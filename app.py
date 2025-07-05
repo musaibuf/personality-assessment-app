@@ -16,38 +16,49 @@ st.set_page_config(
 # --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI ---
 st.markdown("""
 <style>
+    /* --- THIS IS THE FIX FOR DARK/LIGHT MODE --- */
+
+    /* Default (Light Mode) Styles */
+    :root {
+        --primary-color: #1f77b4;
+        --background-color: #FFFFFF;
+        --secondary-background-color: #f8f9fa;
+        --text-color: #2c3e50;
+        --secondary-text-color: #34495e;
+        --border-color: #e9ecef;
+    }
+
+    /* Dark Mode Overrides */
+    [data-theme="dark"] {
+        --primary-color: #58a6ff;
+        --background-color: #0E1117;
+        --secondary-background-color: #262730;
+        --text-color: #FAFAFA;
+        --secondary-text-color: #d1d1d1;
+        --border-color: #444;
+    }
+
     /* General Body Style */
     .stApp {
-        background-color: #FFFFFF;
-        color: #333;
+        background-color: var(--background-color);
+        color: var(--text-color);
     }
 
-    /* Dark Mode Adjustments */
-    .stApp[data-theme="dark"] {
-        background-color: #2c2c2c;
-        color: #f0f0f0;
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Light Mode Adjustments */
-    .stApp[data-theme="light"] {
-        background-color: #FFFFFF;
-        color: #333;
-    }
-
-    /* Header and Titles */
     .main-header {
         font-size: 2.2rem !important;
         text-align: center;
         margin-bottom: 1rem;
-        color: #1f77b4;
+        color: var(--primary-color);
         font-weight: 700;
     }
 
-    .question-title, .score-highlight {
-        color: inherit;  /* Ensures text color follows the mode */
-    }
-
-    /* Question Container */
+    /* Question Container - No visible box */
     .question-container {
         margin: 2rem auto;
         max-width: 800px;
@@ -61,8 +72,8 @@ st.markdown("""
         padding: 2rem;
         margin: 2rem auto;
         border-radius: 15px;
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
+        background-color: var(--secondary-background-color);
+        border: 1px solid var(--border-color);
         max-width: 800px;
         animation: fadeIn 0.5s ease-in-out;
         display: flex;
@@ -70,34 +81,21 @@ st.markdown("""
         justify-content: center;
     }
 
-    /* Specific Dark Mode Adjustments */
-    .stApp[data-theme="dark"] .results-container, 
-    .stApp[data-theme="dark"] .welcome-container {
-        background-color: #333;
-        border: 1px solid #444;
-    }
-
-    .stApp[data-theme="dark"] .question-container {
-        background-color: #444;
-        color: #f0f0f0;
-    }
-
-    /* Question Styling */
-    .question-number {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: inherit;  /* Ensure text color adapts to the mode */
-        text-align: left;
-        margin-bottom: 1rem;
-    }
-
     .question-title {
         font-weight: bold;
         margin-bottom: 2.5rem;
-        color: inherit;
+        color: var(--text-color);
         font-size: 1.5rem;
         text-align: left;
         line-height: 1.4;
+    }
+
+    .question-number {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--secondary-text-color);
+        text-align: left;
+        margin-bottom: 1rem;
     }
 
     /* Button Styling */
@@ -117,33 +115,34 @@ st.markdown("""
     }
 
     .stButton button[kind="primary"] {
-        background-color: #1f77b4;
-        border-color: #1f77b4;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
     }
     
     .stButton button[kind="secondary"] {
-        border-color: #1f77b4;
-        color: #1f77b4;
-        background-color: white;
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        background-color: transparent;
     }
 
     /* Results Styling */
     .score-highlight {
         font-size: 1.5rem;
         font-weight: bold;
-        color: inherit;
+        color: var(--primary-color);
         text-align: center;
         margin-bottom: 1rem;
     }
     
     .keyword-banner {
-        background-color: #e8f4f8;
+        background-color: rgba(31, 119, 180, 0.1);
         padding: 0.75rem 1rem;
         border-radius: 8px;
         margin-bottom: 1.5rem;
         text-align: center;
         font-style: italic;
-        border: 1px solid #d0e0e8;
+        border: 1px solid rgba(31, 119, 180, 0.2);
     }
 
     /* Navigation buttons */
@@ -153,41 +152,38 @@ st.markdown("""
         align-items: center;
         margin-top: 3rem;
         padding-top: 1.5rem;
-        border-top: 1px solid #e9ecef;
+        border-top: 1px solid var(--border-color);
     }
 
-    /* --- THIS IS THE FIX FOR MOBILE VISIBILITY --- */
-    /* Container for all radio options */
+    /* Interactive Radio Button Cards */
     .stRadio > div {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
     }
 
-    /* The card-like label for each radio button */
     .stRadio label {
-        display: flex; /* Use flexbox to align dot and text */
-        align-items: center; /* Vertically center-align */
+        display: flex;
+        align-items: center;
         padding: 0.8rem;
         border-radius: 8px;
-        border: 2px solid #e9ecef;
+        border: 2px solid var(--border-color);
         transition: all 0.2s ease-in-out;
         cursor: pointer;
-        background-color: white;
+        background-color: var(--background-color);
         box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
 
-    /* Target the text div INSIDE the label */
     .stRadio label > div {
-        flex-grow: 1; /* Allow the text to take up all available space */
-        margin-left: 0.5rem; /* Space between dot and text */
-        color: inherit !important; /* Ensure the text adapts to dark/light modes */
-        word-break: break-word; /* Ensure long text wraps */
+        flex-grow: 1;
+        margin-left: 0.5rem;
+        color: var(--text-color) !important;
+        word-break: break-word;
     }
 
     .stRadio label:hover {
-        border-color: #1f77b4;
-        background-color: #f8f9fa;
+        border-color: var(--primary-color);
+        background-color: var(--secondary-background-color);
     }
 
     /* Responsive Design for Mobile */
@@ -212,7 +208,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- DATA (Questions, Scoring, Descriptions) ---
 questions = [
@@ -485,10 +480,10 @@ def display_welcome():
     st.markdown('<div class="welcome-container">', unsafe_allow_html=True)
     st.markdown('<h1 class="main-header">Welcome to the Personality Style Assessment</h1>', unsafe_allow_html=True)
     st.markdown("""
-    <p style="text-align: center; font-size: 1.2rem; color: #333;">
+    <p style="text-align: center; font-size: 1.2rem;">
         Discover your dominant behavioral style and learn how to effectively interact with others.
     </p>
-    <p style="text-align: center; color: #666;">
+    <p style="text-align: center; color: var(--secondary-text-color);">
         This assessment consists of 18 questions. For each question, simply select the option that best describes you. 
         The next question will appear automatically.
     </p>
@@ -571,7 +566,7 @@ def display_results():
         update_google_sheet(data_to_save)
         st.session_state.data_saved = True
 
-    st.markdown('<h2 style="text-align: center; color: #1f77b4;">Your Assessment Results</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 style="text-align: center; color: var(--primary-color);">Your Assessment Results</h2>', unsafe_allow_html=True)
     st.plotly_chart(create_results_donut_chart(scores), use_container_width=True)
     st.markdown("---")
 
@@ -611,7 +606,7 @@ def display_results():
                         st.markdown(f"• {tip}")
 
     st.markdown("---")
-    st.markdown('<p style="text-align:center; color: #666;">Thank you for completing the assessment.</p>', unsafe_allow_html=True)
+    st.markdown('<p style="text-align:center; color: var(--secondary-text-color);">Thank you for completing the assessment.</p>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # --- MAIN APP LOGIC ---
