@@ -19,6 +19,7 @@ st.markdown("""
     /* General Body Style */
     .stApp {
         background-color: #FFFFFF;
+        color: #333;
     }
 
     /* Dark Mode Adjustments */
@@ -33,18 +34,17 @@ st.markdown("""
         color: #333;
     }
 
-    /* Fade-in Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
+    /* Header and Titles */
     .main-header {
         font-size: 2.2rem !important;
         text-align: center;
         margin-bottom: 1rem;
         color: #1f77b4;
         font-weight: 700;
+    }
+
+    .question-title, .score-highlight {
+        color: inherit;  /* Ensures text color follows the mode */
     }
 
     /* Question Container */
@@ -70,21 +70,34 @@ st.markdown("""
         justify-content: center;
     }
 
-    .question-title {
-        font-weight: bold;
-        margin-bottom: 2.5rem;
-        color: #2c3e50;
-        font-size: 1.5rem;
-        text-align: left;
-        line-height: 1.4;
+    /* Specific Dark Mode Adjustments */
+    .stApp[data-theme="dark"] .results-container, 
+    .stApp[data-theme="dark"] .welcome-container {
+        background-color: #333;
+        border: 1px solid #444;
     }
 
+    .stApp[data-theme="dark"] .question-container {
+        background-color: #444;
+        color: #f0f0f0;
+    }
+
+    /* Question Styling */
     .question-number {
         font-size: 1.3rem;
         font-weight: 600;
-        color: #34495e;
+        color: inherit;  /* Ensure text color adapts to the mode */
         text-align: left;
         margin-bottom: 1rem;
+    }
+
+    .question-title {
+        font-weight: bold;
+        margin-bottom: 2.5rem;
+        color: inherit;
+        font-size: 1.5rem;
+        text-align: left;
+        line-height: 1.4;
     }
 
     /* Button Styling */
@@ -118,7 +131,7 @@ st.markdown("""
     .score-highlight {
         font-size: 1.5rem;
         font-weight: bold;
-        color: #1f77b4;
+        color: inherit;
         text-align: center;
         margin-bottom: 1rem;
     }
@@ -168,7 +181,7 @@ st.markdown("""
     .stRadio label > div {
         flex-grow: 1; /* Allow the text to take up all available space */
         margin-left: 0.5rem; /* Space between dot and text */
-        color: #2c3e50 !important; /* Force dark text for all modes */
+        color: inherit !important; /* Ensure the text adapts to dark/light modes */
         word-break: break-word; /* Ensure long text wraps */
     }
 
@@ -199,6 +212,7 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- DATA (Questions, Scoring, Descriptions) ---
 questions = [
