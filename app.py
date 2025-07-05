@@ -58,14 +58,12 @@ st.markdown("""
         justify-content: center;
     }
 
-    /* --- THIS IS THE FIX --- */
-    /* Left-aligned question text */
     .question-title {
         font-weight: bold;
         margin-bottom: 2.5rem;
         color: #2c3e50;
         font-size: 1.5rem;
-        text-align: left; /* Changed from center */
+        text-align: left;
         line-height: 1.4;
     }
 
@@ -73,10 +71,9 @@ st.markdown("""
         font-size: 1.3rem;
         font-weight: 600;
         color: #34495e;
-        text-align: left; /* Changed from center */
+        text-align: left;
         margin-bottom: 1rem;
     }
-    /* --- END OF FIX --- */
 
     /* Button Styling */
     .stButton > button {
@@ -134,15 +131,19 @@ st.markdown("""
         border-top: 1px solid #e9ecef;
     }
 
-    /* Interactive Radio Button Cards */
+    /* --- THIS IS THE FIX FOR MOBILE VISIBILITY --- */
+    /* Container for all radio options */
     .stRadio > div {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
     }
 
+    /* The card-like label for each radio button */
     .stRadio label {
-        padding: 1rem;
+        display: flex; /* Use flexbox to align dot and text */
+        align-items: center; /* Vertically center-align */
+        padding: 0.8rem;
         border-radius: 8px;
         border: 2px solid #e9ecef;
         transition: all 0.2s ease-in-out;
@@ -150,6 +151,15 @@ st.markdown("""
         background-color: white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
+
+    /* Target the text div INSIDE the label */
+    .stRadio label > div {
+        flex-grow: 1; /* Allow the text to take up all available space */
+        margin-left: 0.5rem; /* Space between dot and text */
+        color: #2c3e50 !important; /* Force dark text for all modes */
+        word-break: break-word; /* Ensure long text wraps */
+    }
+    /* --- END OF FIX --- */
 
     .stRadio label:hover {
         border-color: #1f77b4;
@@ -171,9 +181,6 @@ st.markdown("""
         }
         .question-number {
             font-size: 1.1rem;
-        }
-        .stRadio label {
-            padding: 0.8rem;
         }
         .nav-buttons {
             margin-top: 2rem;
@@ -446,7 +453,6 @@ def update_google_sheet(data):
         
         worksheet.append_row(row_to_insert)
     except Exception as e:
-        # Silently fail on the user's side but log for the developer
         print(f"Error updating Google Sheet: {e}")
 
 # --- UI DISPLAY FUNCTIONS ---
@@ -561,8 +567,6 @@ def display_results():
                     st.markdown(f"• {tip}")
     else:
         st.markdown('<div class="score-highlight">You have a blend of styles!</div>', unsafe_allow_html=True)
-        # --- THIS IS THE FIX ---
-        # Removed the asterisks from the f-string
         st.markdown(f"<p style='text-align:center;'>Your dominant styles are: {' & '.join(dominant_styles)}</p>", unsafe_allow_html=True)
         
         tabs = st.tabs([style_descriptions[s]['title'] for s in dominant_styles])
