@@ -21,6 +21,18 @@ st.markdown("""
         background-color: #FFFFFF;
     }
 
+    /* Dark Mode Adjustments */
+    .stApp[data-theme="dark"] {
+        background-color: #2c2c2c;
+        color: #f0f0f0;
+    }
+
+    /* Light Mode Adjustments */
+    .stApp[data-theme="light"] {
+        background-color: #FFFFFF;
+        color: #333;
+    }
+
     /* Fade-in Animation */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
@@ -35,7 +47,7 @@ st.markdown("""
         font-weight: 700;
     }
 
-    /* Question Container - No visible box */
+    /* Question Container */
     .question-container {
         margin: 2rem auto;
         max-width: 800px;
@@ -159,7 +171,6 @@ st.markdown("""
         color: #2c3e50 !important; /* Force dark text for all modes */
         word-break: break-word; /* Ensure long text wraps */
     }
-    /* --- END OF FIX --- */
 
     .stRadio label:hover {
         border-color: #1f77b4;
