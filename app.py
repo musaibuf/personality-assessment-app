@@ -13,67 +13,15 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI ---
+# --- THEME-AWARE CSS ---
 st.markdown("""
 <style>
-    /* --- THIS IS THE FIX FOR DARK/LIGHT MODE --- */
-
-    /* Default (Light Mode) Styles */
-    :root {
-        --primary-color: #1f77b4;
-        --background-color: #FFFFFF;
-        --secondary-background-color: #f8f9fa;
-        --text-color: #2c3e50;
-        --secondary-text-color: #34495e;
-        --border-color: #e9ecef;
-    }
-
-    /* Dark Mode Overrides */
-    [data-theme="dark"] {
-        --primary-color: #58a6ff;
-        --background-color: #0E1117;
-        --secondary-background-color: #262730;
-        --text-color: #FAFAFA;
-        --secondary-text-color: #d1d1d1;
-        --border-color: #444;
-    }
-
-    /* General Body Style */
-    .stApp {
-        background-color: var(--background-color);
-        color: var(--text-color);
-    }
-
-    /* Fade-in Animation */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .main-header {
-        font-size: 2.2rem !important;
-        text-align: center;
-        margin-bottom: 1rem;
-        color: var(--primary-color);
-        font-weight: 700;
-    }
-
-    /* Question Container - No visible box */
-    .question-container {
-        margin: 2rem auto;
-        max-width: 800px;
-        animation: fadeIn 0.5s ease-in-out;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Results and Welcome containers */
-    .results-container, .welcome-container {
+    /* Container Styles */
+    .welcome-container, .results-container, .question-container {
         padding: 2rem;
         margin: 2rem auto;
         border-radius: 15px;
-        background-color: var(--secondary-background-color);
-        border: 1px solid var(--border-color);
+        border: 1px solid rgba(0,0,0,0.1);
         max-width: 800px;
         animation: fadeIn 0.5s ease-in-out;
         display: flex;
@@ -81,24 +29,51 @@ st.markdown("""
         justify-content: center;
     }
 
-    .question-title {
-        font-weight: bold;
-        margin-bottom: 2.5rem;
-        color: var(--text-color);
-        font-size: 1.5rem;
-        text-align: left;
-        line-height: 1.4;
+    /* Dark-mode adjustments */
+    [data-theme="dark"] .welcome-container,
+    [data-theme="dark"] .results-container,
+    [data-theme="dark"] .question-container {
+        background-color: #1e1e1e;
+        color: #ffffff;
+        border-color: rgba(255,255,255,0.1);
+    }
+
+    /* Light-mode adjustments */
+    [data-theme="light"] .welcome-container,
+    [data-theme="light"] .results-container,
+    [data-theme="light"] .question-container {
+        background-color: #ffffff;
+        color: #333333;
+        border-color: rgba(0,0,0,0.1);
+    }
+
+    /* Header Styles */
+    .main-header {
+        font-size: 2.2rem !important;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        color: inherit;
     }
 
     .question-number {
         font-size: 1.3rem;
         font-weight: 600;
-        color: var(--secondary-text-color);
-        text-align: left;
         margin-bottom: 1rem;
+        color: inherit;
+        text-align: left;
     }
 
-    /* Button Styling */
+    .question-title {
+        font-weight: bold;
+        margin-bottom: 2.5rem;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        color: inherit;
+        text-align: left;
+    }
+
+    /* Button Styles */
     .stButton > button {
         width: 100%;
         padding: 1rem;
@@ -109,53 +84,19 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
 
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
     .stButton button[kind="primary"] {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        color: white;
+        background-color: #1f77b4;
+        border-color: #1f77b4;
+        color: #fff;
     }
-    
+
     .stButton button[kind="secondary"] {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
         background-color: transparent;
+        color: #1f77b4;
+        border-color: #1f77b4;
     }
 
-    /* Results Styling */
-    .score-highlight {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary-color);
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    .keyword-banner {
-        background-color: rgba(31, 119, 180, 0.1);
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        font-style: italic;
-        border: 1px solid rgba(31, 119, 180, 0.2);
-    }
-
-    /* Navigation buttons */
-    .nav-buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 3rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid var(--border-color);
-    }
-
-    /* Interactive Radio Button Cards */
+    /* Radio-option Styles */
     .stRadio > div {
         display: flex;
         flex-direction: column;
@@ -167,47 +108,34 @@ st.markdown("""
         align-items: center;
         padding: 0.8rem;
         border-radius: 8px;
-        border: 2px solid var(--border-color);
+        border: 2px solid rgba(0,0,0,0.1);
         transition: all 0.2s ease-in-out;
         cursor: pointer;
-        background-color: var(--background-color);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        background-color: inherit;
+        color: inherit;
     }
 
-    .stRadio label > div {
-        flex-grow: 1;
-        margin-left: 0.5rem;
-        color: var(--text-color) !important;
-        word-break: break-word;
+    [data-theme="dark"] .stRadio label {
+        border-color: rgba(255,255,255,0.2);
     }
 
     .stRadio label:hover {
-        border-color: var(--primary-color);
-        background-color: var(--secondary-background-color);
+        border-color: #1f77b4;
+        background-color: rgba(31,119,180,0.1);
     }
 
-    /* Responsive Design for Mobile */
+    /* Responsive tweaks */
     @media (max-width: 768px) {
-        .main-header {
-            font-size: 1.8rem !important;
-        }
+        .main-header { font-size: 1.8rem !important; }
+        .question-title { font-size: 1.2rem; margin-bottom: 2rem; }
         .question-container, .results-container, .welcome-container {
             margin: 1rem auto;
             padding: 1.5rem;
         }
-        .question-title {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .question-number {
-            font-size: 1.1rem;
-        }
-        .nav-buttons {
-            margin-top: 2rem;
-        }
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- DATA (Questions, Scoring, Descriptions) ---
 questions = [
@@ -611,6 +539,7 @@ def display_results():
 
 # --- MAIN APP LOGIC ---
 def main():
+    # initialize session state
     if 'started' not in st.session_state:
         st.session_state.started = False
     if 'current_question' not in st.session_state:
@@ -619,7 +548,10 @@ def main():
         st.session_state.responses = [None] * len(questions)
     if 'show_results' not in st.session_state:
         st.session_state.show_results = False
+    if 'data_saved' not in st.session_state:
+        st.session_state.data_saved = False
 
+    # render UI
     if not st.session_state.started:
         display_welcome()
     elif not st.session_state.show_results:
