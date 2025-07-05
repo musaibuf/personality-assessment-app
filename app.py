@@ -26,6 +26,8 @@ st.markdown("""
         --text-color: #2c3e50;
         --secondary-text-color: #34495e;
         --border-color: #e9ecef;
+        --heading-color: #1a1a1a;
+        --strong-text-color: #2c3e50;
     }
 
     [data-theme="dark"] {
@@ -35,28 +37,102 @@ st.markdown("""
         --text-color: #FAFAFA;
         --secondary-text-color: #d1d1d1;
         --border-color: #303339;
+        --heading-color: #FFFFFF;
+        --strong-text-color: #FAFAFA;
     }
 
     /* 2. Apply Variables to General Elements */
     .stApp {
         background-color: var(--background-color);
-    }
-
-    .main-header, .score-highlight {
-        color: var(--primary-color);
-    }
-
-    .question-title, p {
         color: var(--text-color);
     }
 
-    .question-number, .nav-buttons > div > div > p {
-        color: var(--secondary-text-color);
+    /* Fix for all headings to be visible in both themes */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--heading-color) !important;
+        font-weight: 700 !important;
+    }
+
+    /* Specific heading fixes */
+    .main-header {
+        color: var(--primary-color) !important;
+        font-size: 2.2rem !important;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 700 !important;
+    }
+
+    .score-highlight {
+        color: var(--primary-color) !important;
+        font-size: 1.5rem !important;
+        font-weight: bold !important;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .question-title {
+        color: var(--heading-color) !important;
+        font-weight: bold !important;
+        margin-bottom: 2.5rem;
+        font-size: 1.5rem;
+        text-align: left;
+        line-height: 1.4;
+    }
+
+    .question-number {
+        color: var(--secondary-text-color) !important;
+        font-size: 1.3rem;
+        font-weight: 600;
+        text-align: left;
+        margin-bottom: 1rem;
+    }
+
+    /* Fix for tab headers and expander headers */
+    .stTabs [data-baseweb="tab-list"] button {
+        color: var(--heading-color) !important;
+        font-weight: 600 !important;
+    }
+
+    .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
+        color: var(--primary-color) !important;
+    }
+
+    .stExpanderHeader {
+        color: var(--heading-color) !important;
+        font-weight: 600 !important;
+    }
+
+    /* Strong text and bold elements */
+    strong, b {
+        color: var(--strong-text-color) !important;
+        font-weight: 700 !important;
+    }
+
+    /* Paragraph text */
+    p {
+        color: var(--text-color) !important;
+    }
+
+    /* Results container specific headings */
+    .results-container h2,
+    .results-container h3,
+    .results-container h4,
+    .results-container h5 {
+        color: var(--heading-color) !important;
+        font-weight: 700 !important;
+    }
+
+    /* Welcome container headings */
+    .welcome-container h1,
+    .welcome-container h2 {
+        color: var(--primary-color) !important;
+        font-weight: 700 !important;
     }
 
     .results-container, .welcome-container {
         background-color: var(--secondary-background-color);
         border: 1px solid var(--border-color);
+        color: var(--text-color);
     }
 
     .nav-buttons {
@@ -87,47 +163,135 @@ st.markdown("""
 
     /* The actual radio circle input */
     .stRadio input[type="radio"] {
-        flex-shrink: 0; /* Prevent the radio button from shrinking */
+        flex-shrink: 0;
     }
 
     /* The div containing the text next to the radio button */
     .stRadio label > div {
-        flex-grow: 1; /* Allow the text to take up all available space */
-        margin-left: 0.75rem; /* Space between dot and text */
-        color: var(--text-color) !important; /* Force text color for all modes */
-        min-width: 0; /* CRITICAL: Allows the text to wrap in a flex container */
+        flex-grow: 1;
+        margin-left: 0.75rem;
+        color: var(--text-color) !important;
+        min-width: 0;
     }
-    /* --- END OF FIX --- */
 
-
-    /* General Layout Styles (Unchanged) */
+    /* General Layout Styles */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    .main-header { font-size: 2.2rem !important; text-align: center; margin-bottom: 1rem; font-weight: 700; }
-    .question-container { margin: 2rem auto; max-width: 800px; animation: fadeIn 0.5s ease-in-out; display: flex; flex-direction: column; }
-    .results-container, .welcome-container { padding: 2rem; margin: 2rem auto; border-radius: 15px; max-width: 800px; animation: fadeIn 0.5s ease-in-out; display: flex; flex-direction: column; justify-content: center; }
-    .question-title { font-weight: bold; margin-bottom: 2.5rem; font-size: 1.5rem; text-align: left; line-height: 1.4; }
-    .question-number { font-size: 1.3rem; font-weight: 600; text-align: left; margin-bottom: 1rem; }
-    .stButton > button { width: 100%; padding: 1rem; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; border: 2px solid transparent; margin-bottom: 0.5rem; }
-    .stButton > button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .stButton button[kind="primary"] { background-color: var(--primary-color); border-color: var(--primary-color); color: white; }
-    .stButton button[kind="secondary"] { border-color: var(--primary-color); color: var(--primary-color); background-color: transparent; }
-    .score-highlight { font-size: 1.5rem; font-weight: bold; text-align: center; margin-bottom: 1rem; }
-    .keyword-banner { background-color: rgba(31, 119, 180, 0.1); padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-style: italic; border: 1px solid rgba(31, 119, 180, 0.2); }
-    .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 1.5rem; }
+    
+    .question-container {
+        margin: 2rem auto;
+        max-width: 800px;
+        animation: fadeIn 0.5s ease-in-out;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .results-container, .welcome-container {
+        padding: 2rem;
+        margin: 2rem auto;
+        border-radius: 15px;
+        max-width: 800px;
+        animation: fadeIn 0.5s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .stButton button[kind="primary"] {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+    }
+    
+    .stButton button[kind="secondary"] {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+        background-color: transparent;
+    }
+    
+    .keyword-banner {
+        background-color: rgba(31, 119, 180, 0.1);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-style: italic;
+        border: 1px solid rgba(31, 119, 180, 0.2);
+        color: var(--text-color) !important;
+    }
+    
+    .keyword-banner strong {
+        color: var(--strong-text-color) !important;
+    }
+    
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+    }
+
+    /* List items styling */
+    li {
+        color: var(--text-color) !important;
+        margin-bottom: 0.5rem;
+    }
 
     /* Responsive Design for Mobile */
     @media (max-width: 768px) {
-        .main-header { font-size: 1.8rem !important; }
-        .question-container, .results-container, .welcome-container { margin: 1rem auto; padding: 1.5rem; }
-        .question-title { font-size: 1.2rem; margin-bottom: 2rem; }
-        .question-number { font-size: 1.1rem; }
-        .nav-buttons { margin-top: 2rem; }
+        .main-header {
+            font-size: 1.8rem !important;
+        }
+        
+        .question-container, .results-container, .welcome-container {
+            margin: 1rem auto;
+            padding: 1.5rem;
+        }
+        
+        .question-title {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .question-number {
+            font-size: 1.1rem;
+        }
+        
+        .nav-buttons {
+            margin-top: 2rem;
+        }
+        
+        .score-highlight {
+            font-size: 1.3rem !important;
+        }
+    }
+
+    /* Dark mode specific fixes */
+    [data-theme="dark"] .keyword-banner {
+        background-color: rgba(88, 166, 255, 0.1);
+        border: 1px solid rgba(88, 166, 255, 0.2);
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- DATA (Questions, Scoring, Descriptions) ---
 questions = [
