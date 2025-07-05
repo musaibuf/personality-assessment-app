@@ -10,7 +10,12 @@ st.set_page_config(
     page_title="Personality Style Assessment",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
+    menu_items={
+        'Get Help': None,
+        'Report a bug': None,
+        'About': " "  # A single space effectively hides the "Made with Streamlit" footer
+    }
 )
 
 # --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI ---
