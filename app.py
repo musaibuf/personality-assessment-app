@@ -13,9 +13,73 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI ---
+# --- CUSTOM CSS FOR ENHANCED & RESPONSIVE UI + HIDE BRANDING ---
 st.markdown("""
 <style>
+    /* --- HIDE STREAMLIT BRANDING --- */
+    /* Hide "Made with Streamlit" footer */
+    .stApp > footer {visibility: hidden;}
+    .stApp > footer:after {
+        content:''; 
+        visibility: visible;
+        display: block;
+        position: relative;
+        background-color: var(--background-color);
+        padding: 5px;
+        top: 2px;
+    }
+    
+    /* Hide GitHub link and fork button */
+    .stApp > header {visibility: hidden;}
+    .stApp > header:after {
+        content:''; 
+        visibility: visible;
+        display: block;
+        position: relative;
+        background-color: var(--background-color);
+        padding: 5px;
+        top: 2px;
+    }
+    
+    /* Hide deploy button */
+    .stDeployButton {visibility: hidden;}
+    
+    /* Hide hamburger menu */
+    .stApp > header .stButton {visibility: hidden;}
+    
+    /* Hide GitHub corner ribbon */
+    .github-corner {display: none !important;}
+    
+    /* Hide any GitHub related elements */
+    [data-testid="stToolbar"] {visibility: hidden;}
+    
+    /* Alternative method to hide footer */
+    footer {visibility: hidden !important;}
+    footer:after {
+        content:''; 
+        visibility: visible;
+        display: block;
+        position: relative;
+        background-color: var(--background-color);
+        padding: 5px;
+        top: 2px;
+    }
+    
+    /* Hide the main menu (hamburger) */
+    #MainMenu {visibility: hidden;}
+    
+    /* Hide header */
+    header {visibility: hidden;}
+    header:after {
+        content:''; 
+        visibility: visible;
+        display: block;
+        position: relative;
+        background-color: var(--background-color);
+        padding: 5px;
+        top: 2px;
+    }
+
     /* --- THIS IS THE DEFINITIVE FIX FOR DARK/LIGHT MODE & MOBILE VISIBILITY --- */
 
     /* 1. Define Theme-Aware Variables */
@@ -291,6 +355,7 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # --- DATA (Questions, Scoring, Descriptions) ---
